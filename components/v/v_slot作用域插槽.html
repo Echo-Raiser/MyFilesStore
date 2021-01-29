@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my_cpn></my_cpn>
+        <my_cpn>
+            <template slot-scope="slot">
+                <!-- <span v-for="item in slot.data">{{item}}**</span> -->
+                <span>{{slot.data.join('*')}}</span>
+            </template>
+        </my_cpn>
+    </div>
+
+    <template id="cpn">
+        <div>
+            <!-- data名称可以任意，是为slot指定了一个属性，用这个属性拿到子组件中的数据 -->
+            <slot :data="names">
+                <ul>
+                    <li v-for="item in names">{{item}}</li>
+                </ul>
+            </slot>
+        </div>
+    </template>
+
+    <script src="js/vue.js"></script>
+    <script>
+        const app=new Vue({
+            el:'#app',
+            data:{
+                
+            },
+            components:{
+                my_cpn:{
+                template:"#cpn",
+                data(){
+                    return {
+                        names:['royan','eddy','loudy']
+                    }
+                }
+            }
+            }
+        })
+    </script>
+</body>
+</html>

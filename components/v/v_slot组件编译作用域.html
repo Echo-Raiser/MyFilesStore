@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 属于vue实例中的内容，用vue实例中的data -->
+    <div id="app">
+        <my_cpn></my_cpn>
+        <my_cpn v-show="isShow"></my_cpn>
+    </div>
+
+    <!-- 组件的data -->
+    <template id="cpn">
+        <div>
+            <h2>编译作用域</h2>
+            <p>hello</p>
+            <button>click</button>
+            <button v-show="cpnIsShow">点击</button>
+        </div>
+    </template>
+    <script src="js/vue.js"></script>
+    <script>
+        const app=new Vue({
+            el:'#app',
+            data:{
+                isShow:true
+            },
+            components:{
+                my_cpn:{
+                template:"#cpn",
+                data(){
+                    return {
+                        cpnIsShow:false
+                    }
+                }
+            }
+            }
+        })
+    </script>
+</body>
+</html>

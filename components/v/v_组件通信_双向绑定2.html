@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <my_cpn :number1="num1" 
+        :number2="num2"
+        @num1changef="num1changez"
+        @num2changef="num2changez"></my_cpn> 
+    </div>
+
+    <template id="cpn">
+        <div>
+            <h2>{{number1}}</h2>
+            <h2>data:{{dnumber1}}</h2>
+
+            <!-- <input type="text" v-model="dnumber1"> -->
+            <!-- <input type="text" :value="dnumber1" @input="dnumber1=$event.target.value">、 -->
+
+            <input type="text" :value="dnumber1" @input="num1Input">
+            <h2>{{number2}}</h2>
+            <h2>data:{{dnumber2}}</h2>
+
+            <!-- <input type="text" v-model="dnumber2"> -->
+            <!-- <input type="text" :value="dnumber2" @input="dnumber2=$event.target.value"> -->
+
+            <input type="text" :value="dnumber2" @input="num2Input">
+
+        </div>
+    </template>
+
+    <script src="js/vue.js"></script>
+    <script>
+       const app = new Vue({
+           el:"#app",
+           data:{
+               num1:1,
+               num2:2
+           },
+           components:{
+               my_cpn:{
+                   template:"#cpn",
+                   props:{
+                       number1:Number,
+                       number2:Number
+                   },
+
+                   //number与dnumber仅在初始状态是一致的
+                   //input变化=>dnumber变化，但number不会改变
+                   data(){
+                    return {
+                        dnumber1:this.number1,
+                        dnumber2:this.number2
+                    }
+                   },
+                   methods:{
+                       num1Input(event){
+                        //    1、将input中的value赋值到dnumber中
+                           this.dnumber1=event.target.value
+                        //   2、为了改变input时同时修改父组件的值（让number也改变），子组件发射事件
+                           this.$emit('num1changef',this.dnumber1)
+
+                        //3、实现number2是number1的10倍
+                           this.dnumber2=this.dnumber1*10
+                           this.$emit('num2changef',this.dnumber2) 
+
+                       },
+                       
+                       num2Input(event){
+                           this.dnumber2=event.target.value
+                           this.$emit('num2changef',this.dnumber2)
+
+                           this.dnumber1=this.dnumber2/10
+                           this.$emit('num1changef',this.dnumber1) 
+                       },
+                       
+                   }
+               }
+           },
+           methods:{
+               num1changez(value){
+                   this.num1=parseFloat(value)
+               },
+               num2changez(value){
+                   this.num2=parseFloat(value)
+               }
+           }
+       }) 
+    </script>
+</body>
+</html>

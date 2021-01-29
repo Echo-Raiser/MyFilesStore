@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 三个组件实例的count不相干，不共用，因为data是个函数，
+        组件存在的目的也是复用 -->
+        <my_cpn></my_cpn>
+        <my_cpn></my_cpn>
+        <my_cpn></my_cpn>
+    </div>
+    <script src="js/vue.js"></script>
+    <template id="cpn">
+        <div>
+            <h1>{{title}}</h1>
+            <h2>我是小恐龙</h2>
+            <p>真的是小恐龙</p>
+            <h2>当前计数{{count}}</h2>
+            <button @click="add()">+</button>
+            <button @click="decrease()">-</button>
+        </div>
+    </template>
+    <script>
+        const app=new Vue({
+            el:'#app',
+            components:{
+                'my_cpn':{
+                    template:'#cpn',
+                    // 必须是函数
+                    data(){
+                        return {
+                            title:'小恐龙',
+                            count:0
+                        }
+                    },
+                    methods:{
+                        add(){
+                            this.count++
+                        },
+                        decrease(){
+                            this.count--
+                        }
+                    }
+                }
+            },
+            //组件不能使用vue实例中的data
+            // data:{
+            //     title:"小恐龙"
+            // }
+        })
+    </script>
+</body>
+</html>

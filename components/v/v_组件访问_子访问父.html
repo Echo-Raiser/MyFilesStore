@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<!-- Vue实例 -->
+    <div id="app">
+        <h2>{{messageVue}}</h2>
+        <my_cpn></my_cpn>
+    </div>
+
+    <script src="js/vue.js"></script>
+<!-- 中间层 -->
+    <template id="cpn">
+        <div>
+            <h2>父组件的message:{{messagef}}</h2>
+            <my_ccpn></my_ccpn>
+        </div>
+    </template>
+<!-- 子组件 -->
+    <template id="ccpn">
+        <div>
+            <h2>子组件的message:{{messages}}</h2>
+            <button @click="btnClick">点击</button>
+        </div>
+    </template>
+
+    <script>
+        const app=new Vue({
+            el:'#app',
+            data:{
+                messageVue:"messageVue"
+            },
+            components:{
+                my_cpn:{
+                    template:"#cpn",
+                    data(){
+                        return {
+                            messagef:"messagef"
+                        }
+                    },
+                    components:{
+                        my_ccpn:{
+                            template:"#ccpn",
+                        data(){
+                            return {
+                                messages:"messages"
+                            }
+                        },
+                        methods:{
+                            btnClick(){
+                                console.log(this.$parent);
+                                console.log(this.$parent.messagef);
+                                console.log(this.$root.messageVue);//访问vue实例中的信息
+                            }
+                        }
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

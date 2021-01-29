@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- slot插槽使组件可扩展 -->
+    <div id="app">
+        <!-- <my_cpn>
+            <button>点击</button>
+        </my_cpn>
+
+        <my_cpn></my_cpn> -->
+
+        <!-- 明确替换的是具体哪一个插槽 -->
+        <my_cpn><button slot="s1">替换了s1</button></my_cpn>
+
+    </div>
+    <template id="cpn">
+        <div>
+            <h2>Hi！</h2>
+            <p>这是一个slot演示</p>
+            <!-- slot中写入的是默认值，会被覆盖 -->
+
+            <!-- <slot><i>check check</i></slot> -->
+            <slot></slot>
+            <slot name="s1"><span>s1</span></slot>
+            <slot name="s2"><span>s2</span></slot>
+            <slot name="s3"><span>s3</span></slot>
+
+        </div>
+    </template>
+    <script src="js/vue.js"></script>
+    <script>
+        const app=new Vue({
+            el:'#app',
+            components:{
+                my_cpn:{
+                    template:"#cpn",
+                }
+            }
+        })
+    </script>
+</body>
+</html>

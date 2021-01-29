@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my_cpn></my_cpn>
+    </div>
+
+<!-- 子组件模板 -->
+    <template id='cpn'>
+        <div>
+            <button v-for="item in categories"
+            @click="btnClick(item)">{{item.name}}</button>
+        </div>
+    </template>
+    
+<!-- 父组件模板 -->
+    <template id='fcpn'>
+        <div>
+            <my_cpn @item-click="cpnclick"></my_cpn>
+        </div>
+    </template>
+
+    <script src="js/vue.js"></script>
+    <script>
+        // 创建子组件
+        const cpn1 = Vue.extend({
+            template:'#cpn',
+            data(){
+                return {
+                    categories:[
+                        {id:1,name:"royan",sex:'m'},
+                        {id:2,name:"eddy",sex:'f'},
+                        {id:3,name:"loudy",sex:'f'},
+                    ]
+                }
+            },
+            methods:{
+                //子组件发射事件，用emit触发自定义的事件，@后的内容
+                btnClick(item){
+                    this.$emit('item-click',item)
+                }
+            }
+        })
+           
+        // 创建父组件
+        const cpn2 = Vue.extend({
+            template:'#fcpn',
+            components:{
+                my_cpn:cpn1
+            },
+            methods:{
+                // 父组件用v-on监听子组件事件，实现具体方法
+                cpnclick(item){
+                    console.log('cpnclick',item);
+                }
+            }
+        })
+
+        const app=new Vue({
+            el:'#app',
+            components:{
+                my_cpn:cpn2
+            }
+        })
+    </script>
+</body>
+</html>

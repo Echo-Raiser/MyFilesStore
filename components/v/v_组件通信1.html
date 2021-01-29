@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <my_cpn v-bind:cnames="names" :csex="sex" :cmessage='message'></my_cpn> -->
+        <my_cpn :csex="sex" :cmessage='message'></my_cpn>
+    </div>
+    <template id='cpn'>
+        <div>
+            <h2>{{cnames}}</h2>
+            <ul>
+                <li v-for='item in cnames'>{{item}}</li>
+            </ul>
+            <p>{{csex}}</p>
+            <p>{{cmessage}}</p>
+        </div>
+    </template>
+    <script src="js/vue.js"></script>
+    <script>
+        const cpn1 = Vue.extend({
+            template:'#cpn',
+            // 1、传数组，props里写{{}}中的变量
+            // props:['cnames','csex','cmessage'],
+
+            // 2、传对象，可以限制数据类型
+            // props:{
+            //     cnames:Array,
+            //     csex:Array
+            // },
+
+            // 3、传对象，可以限制数据类型，还能用default提供一些默认值
+            //required+布尔值，是否是必须传入的值
+            props:{
+                cnames:
+                {
+                    type:Array,
+                    // default:['a','b'],
+                    default(){
+                        return ['a','b']
+                    },
+                    required:true
+                },
+                csex:{type:Array,default:['a','b']},
+                cmessage:{type:String,default:'helloVue'}
+            },
+            data(){
+                return {}
+            }
+        })
+
+        // 有报错信息Invalid default value for prop "cnames": Props with type Object/Array must use a factory function to return the default value.
+        //要求如果type是对象或者数组时，要工厂函数返回默认值
+
+        const app=new Vue({
+            el:'#app',
+            data:{
+                names:['royan','eddy','loudy'],
+                sex:['female','male'],
+                message:'Hello'
+            },
+            components:{
+                my_cpn:cpn1
+            }
+        })
+    </script>
+</body>
+</html>
